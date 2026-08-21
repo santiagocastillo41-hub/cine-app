@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/auth-context'
 import { posterUrl } from '../lib/tmdb'
@@ -150,7 +151,10 @@ function WatchlistRow({ row, signal, isLast }) {
   const metaParts = [movie?.year, movie?.director, movie?.runtime ? `${movie.runtime}′` : null].filter(Boolean)
 
   return (
-    <div className={`flex gap-3 py-4 ${isLast ? '' : 'border-b border-border-subtle'}`}>
+    <Link
+      to={`/pelicula/${row.movie_id}`}
+      className={`flex gap-3 py-4 ${isLast ? '' : 'border-b border-border-subtle'}`}
+    >
       <div className="h-[66px] w-[46px] flex-none overflow-hidden rounded-xs bg-surface-med">
         {poster && <img src={poster} alt="" className="h-full w-full object-cover" loading="lazy" />}
       </div>
@@ -190,6 +194,6 @@ function WatchlistRow({ row, signal, isLast }) {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   )
 }

@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './lib/auth-context'
 import AppLayout from './components/AppLayout'
 import LoginPage from './pages/LoginPage'
 import WatchlistPage from './pages/WatchlistPage'
+import MovieDetailPage from './pages/MovieDetailPage'
 import PlaceholderPage from './pages/PlaceholderPage'
 
 function RequireAuth({ children }) {
@@ -25,6 +26,14 @@ export default function App() {
                 <AppLayout>
                   <WatchlistPage />
                 </AppLayout>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/pelicula/:id"
+            element={
+              <RequireAuth>
+                <MovieDetailPage />
               </RequireAuth>
             }
           />
