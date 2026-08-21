@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/*
+  Tokens del sistema de diseño (docs/ui-kit.html).
+  @theme los declara como variables CSS (--color-*, --font-*, --radius-*)
+  y Tailwind genera las utilidades a partir de ellas (bg-surface-low,
+  text-text-secondary, font-display, rounded-lg, etc).
+*/
+@theme {
+  /* superficies — la elevación sube luminancia, nunca sombra */
+  --color-bg: #08090b;
+  --color-surface-low: #101214;
+  --color-surface-med: #17191d;
+  --color-surface-high: #1e2126;
+
+  /* bordes */
+  --color-border: #24272c;
+  --color-border-subtle: #191c20;
+  --color-border-strong: #33373d;
+
+  /* texto */
+  --color-text-primary: #edeff2;
+  --color-text-secondary: #8e959d;
+  --color-text-tertiary: #5c636b;
+  --color-text-disabled: #3c424a;
+
+  /* acento — nunca decora: sólo tocable, activo o nuevo */
+  --color-accent: #0088ff;
+  --color-accent-pressed: #0070d6;
+  --color-accent-text: #4da9ff;
+  --color-accent-bg: rgba(0, 136, 255, 0.13);
+  --color-accent-bd: rgba(0, 136, 255, 0.32);
+
+  /* semántico */
+  --color-warning: #e0a83c;
+  --color-warning-bg: rgba(224, 168, 60, 0.12);
+  --color-warning-bd: rgba(224, 168, 60, 0.3);
+  --color-danger: #e5484d;
+  --color-danger-bg: rgba(229, 72, 77, 0.12);
+  --color-danger-bd: rgba(229, 72, 77, 0.32);
+
+  /* tipografía — mezcla semántica, no de tamaño */
+  --font-display: "General Sans", "Geist", system-ui, sans-serif;
+  --font-body: "Geist", system-ui, -apple-system, sans-serif;
+
+  /* radios — el poster casi recto, el resto suave */
+  --radius-xs: 3px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 22px;
+  --radius-full: 100px;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-bg font-body text-text-primary antialiased;
+    font-size: 15px;
+    line-height: 24px;
+  }
+}
+
+/*
+  Escala tipográfica (docs/ui-kit.html, sección 02).
+  General Sans sólo en títulos y nombres de película; Geist en todo
+  lo que se lee de corrido. El corte es semántico, nunca de tamaño.
+*/
+@layer components {
+  .type-display-xl {
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 38px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .type-display-lg {
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 31px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .type-display-md {
+    font-family: var(--font-display);
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .type-display-sm {
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+  }
+  .type-display-xs {
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    line-height: 19px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  .type-body-lg {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .type-body-md {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 22.6px;
+    font-weight: 400;
+  }
+  .type-body-sm {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+  }
+  .type-label {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    line-height: 17px;
+    font-weight: 500;
+  }
+  .type-caption {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    line-height: 16px;
+    font-weight: 400;
+  }
+  .type-section {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    line-height: 17px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+}

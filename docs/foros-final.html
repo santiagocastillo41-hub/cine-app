@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foros — final</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090B;--sf-low:#101214;--sf-med:#17191D;--sf-high:#1E2126;
+  --bd-subtle:#191C20;--bd:#24272C;--bd-strong:#33373D;
+  --t1:#EDEFF2;--t2:#8E959D;--t3:#5C636B;--t-off:#3C424A;
+  --ac:#0088FF;--ac-text:#4DA9FF;--ac-bg:rgba(0,136,255,.13);--ac-bd:rgba(0,136,255,.32);
+  --warn:#E0A83C;--warn-bg:rgba(224,168,60,.12);--warn-bd:rgba(224,168,60,.30);
+  --dsp:'General Sans','Geist',system-ui,sans-serif;
+  --bdy:'Geist',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+body{background:#050506;font-family:var(--bdy);color:var(--t1);padding:56px 40px 120px}
+.pagehead{max-width:1200px;margin:0 auto 56px}
+.pagehead .eyebrow{font-size:11px;line-height:14px;font-weight:600;letter-spacing:.02em;color:var(--t3);margin-bottom:16px}
+.pagehead h1{font-family:var(--dsp);font-size:40px;font-weight:600;letter-spacing:-.03em;line-height:1.08}
+.pagehead p{color:var(--t2);font-size:14px;line-height:22.6px;max-width:660px;margin-top:16px}
+.grid{display:flex;flex-wrap:wrap;gap:64px 40px;max-width:1420px;margin:0 auto}
+.cell{width:375px}
+.cell .idx{font-size:11.5px;line-height:15px;font-weight:600;letter-spacing:.02em;color:var(--t3);margin-bottom:8px}
+.cell .name{font-family:var(--dsp);font-size:16px;line-height:21px;font-weight:600;letter-spacing:-.018em;margin-bottom:8px}
+.cell .note{font-size:12.5px;line-height:17px;color:var(--t2);margin-bottom:16px;min-height:51px}
+
+.phone{width:375px;height:812px;background:var(--bg);border:1px solid var(--bd);border-radius:32px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.status{height:48px;flex:0 0 48px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 8px;font-size:13px;font-weight:600}
+.dots{display:flex;gap:5px;align-items:center;opacity:.85}
+.dots b,.dots u{width:13px;height:9px;background:var(--t1);border-radius:1.5px;display:block}
+.dots i{width:15px;height:9px;border:1.2px solid var(--t1);border-radius:2.5px;position:relative;display:block}
+.dots i::after{content:'';position:absolute;inset:1.6px;background:var(--t1);border-radius:1px}
+.scroll{flex:1;overflow:hidden;position:relative}
+.pad{padding:0 16px}
+.fade{position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(to top,var(--bg),transparent);pointer-events:none}
+.navbar{flex:0 0 76px;border-top:1px solid var(--bd-subtle);background:var(--bg);display:flex;padding-top:12px}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--t3)}
+.nb.on{color:var(--ac)}
+.nb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.nb span{font-size:10px;line-height:13px;font-weight:500}
+
+.h1{font-family:var(--dsp);font-size:26px;line-height:31px;font-weight:600;letter-spacing:-.03em}
+.h3{font-family:var(--dsp);font-size:16px;line-height:21px;font-weight:600;letter-spacing:-.018em}
+.h4{font-family:var(--dsp);font-size:15.5px;line-height:19px;font-weight:600;letter-spacing:-.015em}
+.body{font-size:14px;line-height:22.6px;color:#DCE0E5}
+.body-s{font-size:13px;line-height:20px;color:var(--t2)}
+.label{font-size:12.5px;line-height:17px;font-weight:500}
+.caption{font-size:11.5px;line-height:16px;color:var(--t3)}
+.overline{font-size:12.5px;line-height:17px;font-weight:600;letter-spacing:-.005em;color:var(--t3)}
+
+.apphead{padding:8px 16px 0}
+.sechead{padding:32px 16px 12px;display:flex;justify-content:space-between;align-items:baseline}
+.lnk{font-size:12.5px;line-height:17px;color:var(--ac-text);font-weight:600}
+.chiprow{display:flex;gap:8px;padding:0 16px 16px;overflow:hidden}
+.chip{flex:0 0 auto;padding:6px 11px;border:1px solid var(--bd);border-radius:100px;font-size:11.5px;line-height:16px;color:var(--t2);white-space:nowrap}
+.chip.on{border-color:var(--ac-bd);background:var(--ac-bg);color:var(--ac-text)}
+
+.navrow{padding:8px 16px 0;display:flex;align-items:center;gap:12px}
+.iconbtn{width:36px;height:36px;border-radius:50%;background:var(--sf-med);display:flex;align-items:center;justify-content:center;flex:0 0 36px}
+.iconbtn svg{width:17px;height:17px;stroke:var(--t1);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* RIEL DE SEGUIDOS */
+.railrow{display:flex;gap:8px;padding:0 16px}
+.rail{flex:0 0 180px;border:1px solid var(--bd-subtle);background:var(--sf-low);border-radius:12px;padding:12px;display:flex;flex-direction:column}
+.rail .top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rail .fmark{width:26px;height:26px;flex:0 0 26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--dsp);font-size:12px;font-weight:600;color:rgba(255,255,255,.88)}
+.rail .rn{font-family:var(--dsp);font-size:14px;line-height:18px;font-weight:600;letter-spacing:-.015em;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail .rth{font-size:12.5px;line-height:17px;color:var(--t2);flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rail .rs{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11.5px;line-height:16px;color:var(--ac-text);font-weight:500}
+.rail .rs .d{width:5px;height:5px;border-radius:50%;background:var(--ac)}
+.rail .rs.q{color:var(--t3);font-weight:400}
+
+/* CARD DE FORO */
+.fcard{border:1px solid var(--bd-subtle);background:var(--sf-low);border-radius:12px;padding:14px;margin-bottom:12px}
+.fchead{display:flex;align-items:center;gap:12px}
+.fmark{flex:0 0 36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--dsp);font-size:14px;font-weight:600;color:rgba(255,255,255,.88)}
+.fchead .fm{flex:1;min-width:0}
+.fdesc{font-size:13px;line-height:20px;color:var(--t2);margin-top:12px}
+.fcdiv{height:1px;background:var(--bd-subtle);margin:14px -14px 0}
+.fcfoot{display:flex;align-items:center;justify-content:space-between;padding-top:12px}
+.fjoin{font-size:12.5px;line-height:17px;font-weight:600;color:var(--ac-text);border:1px solid var(--ac-bd);background:var(--ac-bg);border-radius:100px;padding:7px 16px}
+.fjoin.on{color:var(--t3);border-color:var(--bd);background:transparent}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:10px;font-size:15px;font-weight:600;letter-spacing:-.01em;border:1px solid transparent;background:var(--ac);color:#fff}
+.btn.out{background:transparent;border-color:var(--bd);color:var(--t1)}
+.btn.off{background:var(--sf-high);color:var(--t-off)}
+.bottombar{flex:0 0 auto;border-top:1px solid var(--bd-subtle);padding:12px 16px 16px;background:var(--bg)}
+
+.ilabel{font-size:12px;line-height:16px;color:var(--t3);margin-bottom:8px;display:flex;justify-content:space-between}
+.field{border:1px solid var(--bd);border-radius:10px;padding:12px;background:var(--sf-med);font-size:14px;line-height:22.6px;color:#DCE0E5}
+.field.focus{border-color:var(--ac)}
+.field.ph{color:var(--t3)}
+.caret{display:inline-block;width:1.5px;height:16px;background:var(--ac);vertical-align:-3px;margin-left:1px}
+.helper{font-size:11.5px;line-height:16px;color:var(--t3);margin-top:8px}
+
+.statec{margin:0 16px;border-radius:12px;padding:16px;border:1px solid var(--warn-bd);background:var(--warn-bg)}
+.statec .ic{width:32px;height:32px;border-radius:50%;background:rgba(224,168,60,.16);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.statec .ic svg{width:16px;height:16px;stroke:var(--warn);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.statec p{font-size:13px;line-height:20.8px;color:#C9CFD6;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="pagehead">
+  <div class="eyebrow">Foros · versión final</div>
+  <h1>Riel + exploración</h1>
+  <p>Las tarjetas del riel llevan el hilo más activo: sin eso, la versión compacta dice lo mismo que la lista que no funcionaba. A 180 px entra una y media en pantalla, que es lo que le avisa al ojo que hay más al costado.</p>
+</div>
+
+<div class="grid">
+
+<!-- 01 -->
+<div class="cell">
+  <div class="idx">01</div>
+  <div class="name">Foros — home</div>
+  <div class="note">El riel es navegación con contexto. Abajo, explorar recibe todo el espacio: es lo que la app quiere que hagas al principio.</div>
+  <div class="phone">
+    <div class="status"><span>21:52</span><span class="dots"><b></b><u></u><i></i></span></div>
+    <div class="scroll">
+      <div class="apphead"><div class="h1">Foros</div></div>
+
+      <div class="sechead"><span class="overline">Seguís 3</span><span class="lnk">Editar</span></div>
+      <div class="railrow">
+        <div class="rail">
+          <div class="top">
+            <div class="fmark" style="background:linear-gradient(140deg,#2d3a47,#141c24)">A</div>
+            <div class="rn">Cine de autor</div>
+          </div>
+          <div class="rth">Películas donde no pasa nada y aun así no podés dejar de mirar</div>
+          <div class="rs"><span class="d"></span>12 nuevos</div>
+        </div>
+        <div class="rail">
+          <div class="top">
+            <div class="fmark" style="background:linear-gradient(140deg,#3d2a2a,#1c1212)">D</div>
+            <div class="rn">Drama</div>
+          </div>
+          <div class="rth">Lo que la película elige no mostrar</div>
+          <div class="rs"><span class="d"></span>27 nuevos</div>
+        </div>
+        <div class="rail">
+          <div class="top">
+            <div class="fmark" style="background:linear-gradient(140deg,#2a3a33,#111a17)">G</div>
+            <div class="rn">Guion</div>
+          </div>
+          <div class="rth">Exposición: cuándo es necesaria y cuándo es pereza</div>
+          <div class="rs q">Sin novedades</div>
+        </div>
+      </div>
+
+      <div class="sechead"><span class="overline">Explorar</span></div>
+      <div class="chiprow">
+        <span class="chip on">Géneros</span>
+        <span class="chip">Oficio</span>
+        <span class="chip">Más activos</span>
+      </div>
+      <div class="pad">
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#3a2d47,#1a1424)">T</div>
+            <div class="fm"><div class="h4">Terror</div><div class="caption" style="margin-top:3px">4.310 miembros</div></div>
+          </div>
+          <div class="fdesc">Del giallo al terror lento contemporáneo. Se discute tensión, sonido y qué hace que algo dé miedo.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">28 hilos esta semana</span><span class="fjoin">Seguir</span></div>
+        </div>
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#47402d,#241f14)">C</div>
+            <div class="fm"><div class="h4">Ciencia ficción</div><div class="caption" style="margin-top:3px">3.760 miembros</div></div>
+          </div>
+          <div class="fdesc">Ideas antes que efectos. Desde Tarkovski hasta lo último de festival, sin discutir si la física cierra.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">19 hilos esta semana</span><span class="fjoin">Seguir</span></div>
+        </div>
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#2d4747,#142424)">D</div>
+            <div class="fm"><div class="h4">Documental</div><div class="caption" style="margin-top:3px">1.190 miembros</div></div>
+          </div>
+          <div class="fdesc">Dónde está el límite entre registrar e intervenir. El foro más discutidor de la app.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">11 hilos esta semana</span><span class="fjoin">Seguir</span></div>
+        </div>
+
+      </div>
+      <div class="fade"></div>
+    </div>
+    <div class="navbar">
+      <div class="nb"><svg viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 011 1v16l-7-4-7 4V4a1 1 0 011-1z"/></svg><span>Mi lista</span></div>
+      <div class="nb on"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/></svg><span>Foros</span></div>
+      <div class="nb"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Buscar</span></div>
+      <div class="nb"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg><span>Perfil</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="cell">
+  <div class="idx">02</div>
+  <div class="name">Explorar — filtro Oficio</div>
+  <div class="note">Los foros de oficio existen desde el día uno y son la prueba de que la app no es sólo géneros. Acá es donde se ven.</div>
+  <div class="phone">
+    <div class="status"><span>21:53</span><span class="dots"><b></b><u></u><i></i></span></div>
+    <div class="scroll">
+      <div class="apphead"><div class="h1">Foros</div></div>
+
+      <div class="sechead"><span class="overline">Seguís 3</span><span class="lnk">Editar</span></div>
+      <div class="railrow">
+        <div class="rail">
+          <div class="top">
+            <div class="fmark" style="background:linear-gradient(140deg,#2d3a47,#141c24)">A</div>
+            <div class="rn">Cine de autor</div>
+          </div>
+          <div class="rth">Películas donde no pasa nada y aun así no podés dejar de mirar</div>
+          <div class="rs"><span class="d"></span>12 nuevos</div>
+        </div>
+        <div class="rail">
+          <div class="top">
+            <div class="fmark" style="background:linear-gradient(140deg,#3d2a2a,#1c1212)">D</div>
+            <div class="rn">Drama</div>
+          </div>
+          <div class="rth">Lo que la película elige no mostrar</div>
+          <div class="rs"><span class="d"></span>27 nuevos</div>
+        </div>
+      </div>
+
+      <div class="sechead"><span class="overline">Explorar</span></div>
+      <div class="chiprow">
+        <span class="chip">Géneros</span>
+        <span class="chip on">Oficio</span>
+        <span class="chip">Más activos</span>
+      </div>
+      <div class="pad">
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#2a3a33,#111a17)">G</div>
+            <div class="fm"><div class="h4">Guion</div><div class="caption" style="margin-top:3px">890 miembros</div></div>
+          </div>
+          <div class="fdesc">Estructura, diálogo, qué se dice y qué se calla. Se leen películas como se leen textos.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">Seguís este foro</span><span class="fjoin on">Siguiendo</span></div>
+        </div>
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#3a3347,#1a1724)">F</div>
+            <div class="fm"><div class="h4">Dirección de fotografía</div><div class="caption" style="margin-top:3px">1.240 miembros</div></div>
+          </div>
+          <div class="fdesc">Luz, lente y encuadre. El único foro donde se permite hablar de equipo, y sólo si sirve para leer la imagen.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">14 hilos esta semana</span><span class="fjoin">Seguir</span></div>
+        </div>
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#473a2d,#241d14)">P</div>
+            <div class="fm"><div class="h4">Premios y festivales</div><div class="caption" style="margin-top:3px">2.030 miembros</div></div>
+          </div>
+          <div class="fdesc">Cannes, Berlinale, San Sebastián y la temporada de premios. Se discute qué se premia y por qué.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">33 hilos esta semana</span><span class="fjoin">Seguir</span></div>
+        </div>
+
+        <div class="fcard">
+          <div class="fchead">
+            <div class="fmark" style="background:linear-gradient(140deg,#2d3d47,#141d24)">M</div>
+            <div class="fm"><div class="h4">Montaje y sonido</div><div class="caption" style="margin-top:3px">640 miembros</div></div>
+          </div>
+          <div class="fdesc">Lo que casi nadie mira y sostiene todo. Ritmo, cortes, silencio, diseño sonoro.</div>
+          <div class="fcdiv"></div>
+          <div class="fcfoot"><span class="caption">7 hilos esta semana</span><span class="fjoin">Seguir</span></div>
+        </div>
+
+      </div>
+      <div class="fade"></div>
+    </div>
+    <div class="navbar">
+      <div class="nb"><svg viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 011 1v16l-7-4-7 4V4a1 1 0 011-1z"/></svg><span>Mi lista</span></div>
+      <div class="nb on"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/></svg><span>Foros</span></div>
+      <div class="nb"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Buscar</span></div>
+      <div class="nb"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg><span>Perfil</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="cell">
+  <div class="idx">03</div>
+  <div class="name">Proponer un foro</div>
+  <div class="note">Curaduría en vez de escala. Pedir la descripción antes de aprobar filtra la mitad de las propuestas sin que intervenga nadie.</div>
+  <div class="phone">
+    <div class="status"><span>21:56</span><span class="dots"><b></b><u></u><i></i></span></div>
+    <div class="scroll">
+      <div class="navrow">
+        <div class="iconbtn"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+        <div class="label" style="flex:1;text-align:center;margin-right:36px">Proponer un foro</div>
+      </div>
+
+      <div style="height:24px"></div>
+      <div class="statec">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="h3">Los foros se aprueban de a uno</div>
+        <p>Cada propuesta la revisa una persona. Suelen tardar un día. Sólo entran temas de cine: un director, un oficio, un movimiento, una cinematografía.</p>
+      </div>
+
+      <div style="padding:32px 16px 0">
+        <div class="ilabel"><span>Nombre</span><span>18/40</span></div>
+        <div class="field focus">Cine argentino contemporáneo<span class="caret"></span></div>
+      </div>
+
+      <div style="padding:24px 16px 0">
+        <div class="ilabel"><span>De qué se habla acá</span><span>Se muestra en explorar</span></div>
+        <div class="field ph" style="min-height:96px">Dos líneas alcanzan. Escribilo como se lo explicarías a alguien que recién llega.</div>
+        <div class="helper">Es lo que más pesa en la revisión: si no se puede describir sin salirse del cine, probablemente no sea un foro.</div>
+      </div>
+
+      <div style="padding:24px 16px 0">
+        <div class="ilabel"><span>Tipo</span></div>
+        <div style="display:flex;gap:8px">
+          <div style="flex:1;height:44px;border:1px solid var(--bd);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:550;color:var(--t2)">Género</div>
+          <div style="flex:1;height:44px;border:1px solid var(--ac-bd);background:var(--ac-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:550;color:var(--ac-text)">Oficio o tema</div>
+        </div>
+      </div>
+
+      <div class="fade"></div>
+    </div>
+    <div class="bottombar"><div class="btn off">Escribí la descripción</div></div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

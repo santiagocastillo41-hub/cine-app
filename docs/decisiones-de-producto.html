@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decisiones de producto</title>
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08090B;--sf-low:#101214;--sf-med:#17191D;--sf-high:#1E2126;
+  --bd-subtle:#191C20;--bd:#24272C;--bd-strong:#33373D;
+  --t1:#EDEFF2;--t2:#8E959D;--t3:#5C636B;--t-off:#3C424A;
+  --ac:#0088FF;--ac-text:#4DA9FF;--ac-bg:rgba(0,136,255,.13);--ac-bd:rgba(0,136,255,.32);
+  --warn:#E0A83C;--warn-bg:rgba(224,168,60,.12);--warn-bd:rgba(224,168,60,.30);
+  --dsp:'General Sans','Geist',system-ui,sans-serif;
+  --bdy:'Geist',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);font-family:var(--bdy);color:var(--t1);padding:72px 32px 140px;font-size:15px;line-height:25px}
+.wrap{max-width:760px;margin:0 auto}
+
+.masthead{padding-bottom:48px;border-bottom:1px solid var(--bd);margin-bottom:16px}
+.eyebrow{font-size:12.5px;line-height:17px;font-weight:600;color:var(--t3);margin-bottom:18px}
+h1{font-family:var(--dsp);font-size:46px;line-height:1.06;font-weight:600;letter-spacing:-.032em}
+.lede{color:var(--t2);font-size:17px;line-height:29px;margin-top:22px}
+.meta{display:flex;gap:36px;margin-top:32px;flex-wrap:wrap}
+.meta div{font-size:12.5px;line-height:17px;color:var(--t3)}
+.meta b{display:block;font-family:var(--dsp);font-size:14px;font-weight:600;color:var(--t1);margin-bottom:3px;letter-spacing:-.01em}
+
+section{padding-top:64px}
+.snum{font-family:var(--dsp);font-size:13px;font-weight:600;color:var(--ac-text);letter-spacing:.02em;margin-bottom:10px}
+h2{font-family:var(--dsp);font-size:29px;line-height:35px;font-weight:600;letter-spacing:-.028em;margin-bottom:18px}
+h3{font-family:var(--dsp);font-size:19px;line-height:25px;font-weight:600;letter-spacing:-.022em;margin:36px 0 10px}
+p{color:#C7CDD4;margin-bottom:16px}
+p.tight{margin-bottom:10px}
+strong{color:var(--t1);font-weight:600}
+em{color:var(--t1);font-style:italic}
+
+.pull{border-left:2px solid var(--ac);padding:4px 0 4px 22px;margin:32px 0;font-family:var(--dsp);font-size:22px;line-height:31px;font-weight:600;letter-spacing:-.022em;color:var(--t1)}
+
+.card{border:1px solid var(--bd-subtle);background:var(--sf-low);border-radius:14px;padding:24px;margin-bottom:14px}
+.card .k{font-family:var(--dsp);font-size:17px;line-height:23px;font-weight:600;letter-spacing:-.02em;margin-bottom:12px}
+.card p{font-size:14px;line-height:23px;margin-bottom:12px}
+.card p:last-child{margin-bottom:0}
+.tag{display:inline-block;font-size:11.5px;line-height:16px;font-weight:600;color:var(--t3);border:1px solid var(--bd);border-radius:8px;padding:3px 9px;margin-bottom:14px}
+.tag.no{color:var(--warn);border-color:var(--warn-bd);background:var(--warn-bg)}
+.tag.si{color:var(--ac-text);border-color:var(--ac-bd);background:var(--ac-bg)}
+.discard{border-top:1px solid var(--bd-subtle);margin-top:16px;padding-top:14px;font-size:13px;line-height:21px;color:var(--t3)}
+.discard b{color:var(--t2);font-weight:600}
+
+ul{list-style:none;margin:0 0 18px}
+li{position:relative;padding-left:22px;color:#C7CDD4;margin-bottom:9px;font-size:14.5px;line-height:24px}
+li::before{content:'';position:absolute;left:2px;top:10px;width:5px;height:5px;border-radius:50%;background:var(--bd-strong)}
+li.yes::before{background:var(--ac)}
+li.no::before{background:transparent;border:1px solid var(--bd-strong)}
+
+table{width:100%;border-collapse:collapse;margin:18px 0 24px;font-size:13.5px}
+th{text-align:left;font-family:var(--dsp);font-size:12.5px;font-weight:600;color:var(--t3);padding:0 12px 10px 0;border-bottom:1px solid var(--bd)}
+td{padding:12px 12px 12px 0;border-bottom:1px solid var(--bd-subtle);color:#C7CDD4;vertical-align:top;line-height:21px}
+td:first-child{color:var(--t1);font-weight:500;white-space:nowrap}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--ac-text);background:var(--ac-bg);border:1px solid var(--ac-bd);border-radius:5px;padding:1px 6px}
+
+.schema{background:var(--sf-low);border:1px solid var(--bd-subtle);border-radius:14px;padding:22px;margin-bottom:14px}
+.schema .tn{font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--ac-text);margin-bottom:6px}
+.schema .td{font-size:13px;line-height:21px;color:var(--t2);margin-bottom:14px}
+.f{display:flex;gap:14px;padding:7px 0;border-top:1px solid var(--bd-subtle);font-size:13px;line-height:20px}
+.f .fn{flex:0 0 168px;font-family:ui-monospace,Menlo,monospace;color:var(--t1)}
+.f .ft{flex:1;color:var(--t3)}
+
+.note{border:1px solid var(--warn-bd);background:var(--warn-bg);border-radius:12px;padding:18px;margin:24px 0}
+.note p{color:#E8D3AC;font-size:14px;line-height:23px;margin:0}
+.note b{color:var(--warn)}
+
+hr{border:none;border-top:1px solid var(--bd-subtle);margin:56px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="masthead">
+  <div class="eyebrow">Caso de estudio · producto y diseño</div>
+  <h1>Una app de cine<br>sin puntajes</h1>
+  <p class="lede">Diseño y desarrollo de punta a punta de una comunidad de cine para mobile: desde la tesis de producto hasta el sistema de diseño y el modelo de datos. Este documento registra qué se decidió, por qué, y sobre todo qué se descartó.</p>
+  <div class="meta">
+    <div><b>Rol</b>Producto, diseño y desarrollo</div>
+    <div><b>Alcance</b>MVP completo, una persona</div>
+    <div><b>Entregables</b>30 pantallas, UI kit, app funcionando</div>
+    <div><b>Stack</b>Expo · Supabase · TMDB</div>
+  </div>
+</div>
+
+<!-- 01 -->
+<section>
+  <div class="snum">01</div>
+  <h2>El problema</h2>
+  <p>Elegir qué ver debería ser fácil y no lo es. Las plataformas grandes resuelven la pregunta equivocada: IMDb y Rotten Tomatoes te dicen <em>cuánto vale</em> una película promediando a millones de personas que no conocés. Ese número no te dice si te va a servir a vos, esta noche.</p>
+  <p>Letterboxd está más cerca, pero su modelo mental es el <strong>registro</strong>: mirás algo, lo puntuás, escribís, queda archivado. Es retrospectivo e individual. Y Reddit tiene la conversación, pero ahí una película es texto plano: nadie puede saber de qué se habló ni encontrarlo después.</p>
+  <p>Queda un hueco entre las tres, y es donde vive este producto.</p>
+
+  <div class="pull">La app no te dice cuánto vale una película. Te dice qué se está diciendo de ella en los lugares donde ya elegiste estar.</div>
+
+  <p>Esa frase es la tesis y funciona como criterio de corte: cada vez que una feature no la sostenía, quedó afuera.</p>
+</section>
+
+<hr>
+
+<!-- 02 -->
+<section>
+  <div class="snum">02</div>
+  <h2>La decisión que define todo lo demás</h2>
+  <p>Sacar el rating no es una carencia, es la premisa. Pero un producto no puede quitar algo sin poner nada en su lugar: si no hay número, ¿de dónde sale la señal para decidir?</p>
+  <p>La respuesta es el <strong>foro como proxy de afinidad</strong>. Cuando abrís una película, las opiniones que ves primero vienen de los foros que seguís, y la interfaz lo dice con todas las letras: <em>«según los 3 foros que seguís»</em>.</p>
+  <p>Es barato de construir, transparente para el usuario, y no necesita volumen de datos para funcionar. Es lo opuesto a un número sin origen.</p>
+
+  <div class="card">
+    <span class="tag no">Descartado</span>
+    <div class="k">Afinidad calculada por persona</div>
+    <p>Más potente: gente cuyo gusto se parece al tuyo, más allá del foro. Pero necesita una señal de gusto —justamente lo que se sacó al eliminar el rating— y masa crítica de usuarios que un MVP no va a tener.</p>
+    <div class="discard"><b>Guardado para después:</b> la superposición de watchlists se registra desde el día uno aunque no se use. Si el producto funciona, es la evolución natural.</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 03 -->
+<section>
+  <div class="snum">03</div>
+  <h2>El watchlist es el producto</h2>
+  <p>El recorrido real no es «entro a debatir», es <strong>«tengo dos horas y quiero elegir bien»</strong>. Abro mi lista, elijo una película, leo qué se dijo en mis foros, y decido. Los foros dejan de ser el destino y pasan a ser la materia prima de esa decisión.</p>
+  <p>Eso también resuelve el arranque en frío, que es lo que hunde a la mayoría de los productos de comunidad: el watchlist con anotaciones tiene valor estando solo, sin que haya nadie más en la app.</p>
+
+  <h3>La nota pareada</h3>
+  <p>Al guardar una película se puede escribir una nota. Al marcarla como vista, se escribe otra. Las dos juntas forman un par <strong>antes / después</strong>, y cada mitad se publica o no, por separado.</p>
+  <p>Letterboxd tiene reseñas, pero siempre post-visionado: la expectativa desaparece, se reescribe sola en la memoria una vez que viste la película. Nadie captura ese antes. El par es un formato que no existe en ningún otro lado, y es interesante de leer incluso cuando la película no lo es.</p>
+
+  <div class="note">
+    <p><b>La regla que lo sostiene:</b> al marcar «ya la vi», la nota previa se bloquea y no se puede editar nunca más. Se muestra con su fecha original. Sin eso, el formato entero se cae y es una reseña disfrazada — el valor está en que es verificablemente anterior.</p>
+  </div>
+
+  <p>Efecto secundario que resultó clave: la nota de antes es, por definición, libre de spoilers. Alimenta directo la lectura en modo decisión.</p>
+
+  <div class="card">
+    <span class="tag no">Descartado</span>
+    <div class="k">Capturar la nota previa al empezar a ver</div>
+    <p>Mover la pregunta al momento de «voy a verla esta noche» subiría mucho la tasa de pares completos. Se descartó porque un watchlist es una lista de intenciones a largo plazo, no un plan para hoy.</p>
+    <div class="discard"><b>Costo asumido:</b> habrá más notas sueltas que pares completos. El par es el formato destacado, no el obligatorio.</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 04 -->
+<section>
+  <div class="snum">04</div>
+  <h2>Spoilers: el problema que casi rompe la feature principal</h2>
+  <p>Si abro una conversación <em>para decidir si ver la película</em>, no puedo leer un hilo libre. Y los mejores debates de cine son exactamente los que destripan el final. Son dos modos de lectura incompatibles conviviendo en la misma pantalla.</p>
+  <p>Sin resolverlo, la feature estrella se autodestruye: la primera vez que alguien se come el final de algo que tenía guardado hace seis meses, no vuelve a usar el flujo.</p>
+
+  <h3>Tres capas</h3>
+  <ul>
+    <li class="yes"><strong>Declaración obligatoria.</strong> En el composer, dentro de un hilo anclado a una película, no se puede publicar sin responder si revela algo. Sin opción preseleccionada: con un default en «no», la mitad lo saltea sin leer.</li>
+    <li class="yes"><strong>Colapso condicionado.</strong> El estado del usuario respecto de esa película decide qué ve. Ya la vio: todo abierto. En su lista sin ver: todo cerrado.</li>
+    <li class="yes"><strong>Corrección colectiva.</strong> Cualquiera puede marcar un mensaje como spoiler no declarado. Con dos marcas se colapsa hasta que un moderador lo revise.</li>
+  </ul>
+
+  <div class="card">
+    <span class="tag no">Descartado</span>
+    <div class="k">Blur sobre el texto</div>
+    <p>Parece la solución obvia y es la que más falla: el texto borroso sigue siendo texto y el cerebro completa. Se lee de reojo, se lee inclinando el teléfono. Y visualmente el blur <em>pide</em> que lo toques — genera la curiosidad que se intenta contener.</p>
+    <div class="discard"><b>En su lugar:</b> colapso. Cero texto original renderizado. Es la diferencia entre tapar algo y no haberlo puesto todavía.</div>
+  </div>
+
+  <div class="card">
+    <span class="tag si">Caso que rompió el binario</span>
+    <div class="k">«No la voy a ver, pero quiero debatirla»</div>
+    <p>No todo se reduce a vi / no vi. Existe un tercer estado: no la vi y no me importa que me la spoileen. Si a esa persona se le tapa todo, se frustra sin motivo.</p>
+    <div class="discard"><b>Solución:</b> al primer «mostrar», se ofrece <em>«no pienso verla — mostrame todo de esta película»</em>. Un tap, se guarda por película, y es reversible desde ajustes.</div>
+  </div>
+</section>
+
+<hr>
+
+<!-- 05 -->
+<section>
+  <div class="snum">05</div>
+  <h2>Moderación como decisión de diseño</h2>
+  <p>El referente de origen —4chan— derivó en un foro de conspiraciones. Pero el problema no fue la política: el cine <em>es</em> político por naturaleza, y una regla de «no se habla de política» es imposible de moderar y espantaría justo al usuario que se busca.</p>
+
+  <div class="pull">Se modera el objeto de la conversación, no el tema.</div>
+
+  <p>«La lectura política de <em>Zona de interés</em>» pasa. El mismo argumento sin película adentro, no. Es una regla de relevancia, y tiene la ventaja de ser explicable en una línea dentro de la interfaz.</p>
+
+  <h3>Mecanismos estructurales</h3>
+  <p>Lo que produce deriva conspirativa es estructural, y se resuelve con decisiones de producto, no con reglas escritas:</p>
+  <ul>
+    <li class="yes"><strong>Anclaje obligatorio.</strong> Todo hilo nace de una película o de un tema de oficio. No existe el hilo suelto, así que no hay dónde crezca el contenido fuera de tema.</li>
+    <li class="yes"><strong>Sin links externos en v1.</strong> Es la vía de entrada número uno de contenido conspirativo, y sacarla es gratis.</li>
+    <li class="yes"><strong>Historial visible.</strong> Que se lea lo que escribiste hace un mes hace costoso derivar. Es exactamente lo que 4chan no tenía, por diseño.</li>
+    <li class="yes"><strong>Usuario obligatorio, sin sugeridos.</strong> Elegir un nombre es un acto mínimo de identidad y ya filtra.</li>
+    <li class="no"><strong>Sin votos negativos.</strong> Los hilos decaen por inactividad. Se evita la supresión por brigada sin darle a nadie un arma.</li>
+  </ul>
+
+  <p>La clasificación automática corre al publicar y devuelve tres estados: pasa, pasa con marca, va a revisión. La cola de revisión humana es una pantalla diseñada, no un script — es lo que hace sostenible el producto operado por una sola persona.</p>
+</section>
+
+<hr>
+
+<!-- 06 -->
+<section>
+  <div class="snum">06</div>
+  <h2>Qué quedó afuera</h2>
+  <p>Un MVP se define por lo que no tiene. Todo esto se discutió y se descartó con motivo:</p>
+
+  <table>
+    <thead><tr><th>Feature</th><th>Por qué no</th></tr></thead>
+    <tbody>
+      <tr><td>Seguir personas</td><td>Caro (feed, notificaciones, privacidad) y no es el diferencial. Se siguen foros y películas, no gente.</td></tr>
+      <tr><td>Creación libre de foros</td><td>Reddit lo resuelve con miles de moderadores voluntarios. Acá hay uno. Se propone y se aprueba de a uno: curaduría en vez de escala.</td></tr>
+      <tr><td>Puntajes y estrellas</td><td>Es la premisa del producto. Volver a meterlos lo convierte en Letterboxd con menos features.</td></tr>
+      <tr><td>Anonimato</td><td>Multiplica el costo de moderación y rompe la recomendación. Se toma de 4chan la efemeridad y la imagen, no el anonimato.</td></tr>
+      <tr><td>Reseñas sueltas</td><td>Competir de frente con Letterboxd exige perfiles ricos. El par antes/después ocupa ese lugar con un formato propio.</td></tr>
+      <tr><td>Mensajes privados</td><td>Superficie de abuso sin moderación posible para un equipo de una persona.</td></tr>
+      <tr><td>Notas previas públicas por defecto</td><td>Publicar es siempre un acto explícito y reversible. La nota nace privada.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr>
+
+<!-- 07 -->
+<section>
+  <div class="snum">07</div>
+  <h2>Sistema de diseño</h2>
+  <p>Dark-first, no dark mode opcional: el momento de uso real es «son las diez de la noche y no sé qué ver». La base es gris frío desaturado porque la app está llena de posters que la interfaz no controla — el color lo pone el contenido.</p>
+
+  <h3>Reglas que se sostienen solas</h3>
+  <ul>
+    <li class="yes"><strong>El acento nunca decora.</strong> Si algo es azul, se toca, está activo, o es nuevo. En una lista, el punto de novedad es lo único con color.</li>
+    <li class="yes"><strong>Dos versiones del acento.</strong> <code>#0088FF</code> para rellenos, <code>#4DA9FF</code> para texto: el azul saturado sobre fondo casi negro no llega a contraste AA.</li>
+    <li class="yes"><strong>El poster nunca es protagonista.</strong> 46 × 66 con radio 3, casi recto. Es un dato, no una imagen — es lo que separa esto de una app de streaming.</li>
+    <li class="yes"><strong>Mezcla tipográfica semántica.</strong> General Sans sólo en títulos y nombres de película, Geist en todo lo que se lee de corrido. El usuario aprende a reconocer que algo es una obra sin leerlo.</li>
+    <li class="yes"><strong>Nada en mayúsculas sostenidas.</strong> En español se lee peor y borra las tildes — y con ellas, el registro de voseo que le da voz a la app.</li>
+    <li class="yes"><strong>La elevación no usa sombras.</strong> En oscuro no se leen. La jerarquía se construye subiendo la luminancia de la superficie.</li>
+  </ul>
+
+  <p>Un solo componente tiene forma propia: la nota pareada, con su línea vertical y los dos nodos —hueco el de antes, sólido el de después—. Todo lo demás es tipografía y líneas de un pixel.</p>
+</section>
+
+<hr>
+
+<!-- 08 -->
+<section>
+  <div class="snum">08</div>
+  <h2>Modelo de datos</h2>
+  <p>El punto no obvio: la relación entre una persona y una película es <strong>una sola tabla con estado</strong>. Si el watchlist y las vistas fueran tablas separadas, el par antes/después se complica para siempre.</p>
+
+  <div class="schema">
+    <div class="tn">user_movie</div>
+    <div class="td">El corazón del modelo. Una fila por persona y película, con estado, ambas notas y sus permisos de publicación.</div>
+    <div class="f"><span class="fn">status</span><span class="ft">saved · watched · none</span></div>
+    <div class="f"><span class="fn">note_before</span><span class="ft">texto, se congela al pasar a watched</span></div>
+    <div class="f"><span class="fn">note_before_at</span><span class="ft">fecha original, se muestra siempre</span></div>
+    <div class="f"><span class="fn">note_before_public</span><span class="ft">booleano independiente</span></div>
+    <div class="f"><span class="fn">note_after</span><span class="ft">texto, editable</span></div>
+    <div class="f"><span class="fn">note_after_public</span><span class="ft">booleano independiente</span></div>
+    <div class="f"><span class="fn">tags</span><span class="ft">array de etiquetas propias del usuario</span></div>
+    <div class="f"><span class="fn">source_thread_id</span><span class="ft">de dónde salió, nullable</span></div>
+    <div class="f"><span class="fn">spoilers_off</span><span class="ft">«no pienso verla», anula el colapso</span></div>
+  </div>
+
+  <div class="schema">
+    <div class="tn">thread</div>
+    <div class="td">Nunca existe sin ancla. La restricción vive en la base, no sólo en la interfaz.</div>
+    <div class="f"><span class="fn">forum_id</span><span class="ft">obligatorio</span></div>
+    <div class="f"><span class="fn">movie_id</span><span class="ft">nullable si hay topic</span></div>
+    <div class="f"><span class="fn">topic</span><span class="ft">nullable si hay movie_id · check: uno de los dos</span></div>
+    <div class="f"><span class="fn">last_activity_at</span><span class="ft">ordena el foro y gobierna el decaimiento</span></div>
+  </div>
+
+  <div class="schema">
+    <div class="tn">post</div>
+    <div class="td">El flag de spoiler no admite nulo: es lo que hace obligatoria la pregunta del composer.</div>
+    <div class="f"><span class="fn">has_spoiler</span><span class="ft">not null, sin default</span></div>
+    <div class="f"><span class="fn">spoiler_flags</span><span class="ft">conteo de marcas de terceros, no visible</span></div>
+    <div class="f"><span class="fn">mod_status</span><span class="ft">published · flagged · held</span></div>
+    <div class="f"><span class="fn">mod_confidence</span><span class="ft">score del clasificador</span></div>
+  </div>
+
+  <div class="schema">
+    <div class="tn">mention</div>
+    <div class="td">Convierte a la película en entidad de primera clase dentro del texto. Es lo que permite responder «dónde se está hablando de esto».</div>
+    <div class="f"><span class="fn">post_id · movie_id</span><span class="ft">índice sobre movie_id</span></div>
+  </div>
+
+  <p>De TMDB se guardan <strong>dos campos de imagen</strong>, no uno: <code>poster_path</code> para las listas y <code>backdrop_path</code> para las cabeceras. No todas las películas tienen backdrop, así que el fallback es el poster ampliado y desenfocado.</p>
+</section>
+
+<hr>
+
+<!-- 09 -->
+<section>
+  <div class="snum">09</div>
+  <h2>Cómo se mide</h2>
+  <p>Instrumentado desde el primer commit, no después. Cada métrica prueba una decisión concreta:</p>
+
+  <table>
+    <thead><tr><th>Métrica</th><th>Qué decisión pone a prueba</th></tr></thead>
+    <tbody>
+      <tr><td>Tasa de decisión</td><td>De las veces que se abre una película guardada y se lee conversación, cuántas terminan en «la vi» o en sacarla de la lista. Mide si el producto hace lo que promete.</td></tr>
+      <tr><td>Pares completos</td><td>Qué porcentaje de quienes escriben nota previa termina publicando el par. Mide si el formato distintivo funciona.</td></tr>
+      <tr><td>Spoilers no declarados</td><td>Si es alta, el composer falla y hay que cambiar el momento de la pregunta. Si es cero, o nadie encontró la acción o el flag obligatorio ya hace el trabajo.</td></tr>
+      <tr><td>Falsos positivos del moderador</td><td>Corrida contra un set de prueba etiquetado a mano, con casos ambiguos deliberados. Es evidencia medible sin necesidad de usuarios.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <p><b>Honestidad sobre el alcance:</b> el proyecto no se publica, así que no hay datos de comportamiento real. El sustituto es la evidencia técnica del clasificador — 60 posts de prueba, mitad válidos, mitad fuera de tema, con casos límite como «la lectura política de <em>Zona de interés</em>» — y el reporte de precisión y falsos positivos.</p>
+  </div>
+</section>
+
+<hr>
+
+<!-- 10 -->
+<section>
+  <div class="snum">10</div>
+  <h2>Qué significa «shipeado» acá</h2>
+  <p>Sin usuarios, la palabra necesita una definición y conviene que sea verificable:</p>
+  <ul>
+    <li class="yes">Corre en un dispositivo real, no en simulador. Build de EAS instalado en el teléfono.</li>
+    <li class="yes">Datos reales de TMDB, no mockeados.</li>
+    <li class="yes">Persistencia real: creás cuenta, cerrás la app, tus notas siguen ahí.</li>
+    <li class="yes">El clasificador de moderación funcionando contra la API, no simulado.</li>
+    <li class="yes">Repo público con README.</li>
+  </ul>
+  <p>Eso es una app terminada y cualquiera puede comprobarlo mirando el repo. La distancia con un prototipo de Figma se nota en dos minutos de video.</p>
+
+  <div class="pull">El código es la prueba de que las decisiones llegaron hasta el final, no el protagonista del caso.</div>
+
+  <p>El riesgo del formato «diseñé y programé una app» es que está saturado. Lo que distingue a este caso es lo que está en las nueve secciones anteriores: la nota congelada, el foro como proxy de afinidad, el colapso en lugar del blur, la moderación por relevancia y no por tema. Eso es lo que no se puede copiar de un tutorial.</p>
+</section>
+
+</div>
+</body>
+</html>
