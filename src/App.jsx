@@ -4,6 +4,7 @@ import AppLayout from './components/AppLayout'
 import LoginPage from './pages/LoginPage'
 import WatchlistPage from './pages/WatchlistPage'
 import MovieDetailPage from './pages/MovieDetailPage'
+import ThreadPage from './pages/ThreadPage'
 import PlaceholderPage from './pages/PlaceholderPage'
 
 function RequireAuth({ children }) {
@@ -34,6 +35,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <MovieDetailPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/hilo/:id"
+            element={
+              <RequireAuth>
+                <ThreadPage />
               </RequireAuth>
             }
           />

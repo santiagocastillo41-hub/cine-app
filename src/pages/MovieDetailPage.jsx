@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/auth-context'
 import { backdropUrl, posterUrl } from '../lib/tmdb'
@@ -182,7 +182,11 @@ export default function MovieDetailPage() {
           </div>
         ) : (
           threads.map((thread) => (
-            <div key={thread.id} className="mx-4 mt-3 rounded-lg border border-border-subtle bg-surface-low p-3.5">
+            <Link
+              key={thread.id}
+              to={`/hilo/${thread.id}`}
+              className="mx-4 mt-3 block rounded-lg border border-border-subtle bg-surface-low p-3.5"
+            >
               <div className="mb-2 flex items-center gap-1.5 text-[11px] leading-[14px] font-semibold tracking-[-0.005em] text-accent-text">
                 <span className="h-1.5 w-1.5 rounded-[1.5px] bg-accent" />
                 {thread.forums?.name}
@@ -197,7 +201,7 @@ export default function MovieDetailPage() {
               <div className="mt-2 text-[11.5px] leading-4 text-text-tertiary">
                 {thread.reply_count} {thread.reply_count === 1 ? 'respuesta' : 'respuestas'}
               </div>
-            </div>
+            </Link>
           ))
         )}
 
