@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/auth-context'
 import { backdropUrl, posterUrl } from '../lib/tmdb'
-import { relativeTime, shortDate } from '../lib/format'
+import { shortDate } from '../lib/format'
 
 export default function MovieDetailPage() {
   const { id } = useParams()
@@ -101,7 +101,7 @@ export default function MovieDetailPage() {
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(to bottom, rgba(8,9,11,.32) 0%, rgba(8,9,11,.72) 52%, var(--color-bg) 100%)',
+              background: 'linear-gradient(to bottom, rgba(8,9,11,.32) 0%, rgba(8,9,11,.72) 52%, #08090b 100%)',
             }}
           />
 
@@ -143,17 +143,21 @@ export default function MovieDetailPage() {
 
         {userMovie?.note_before && (
           <div className="px-4 pt-6">
-            <div className="relative pl-6">
-              <span className="absolute top-1 left-0 h-3 w-3 rounded-full border-[1.5px] border-border bg-bg" />
-              <div className="mb-2 flex items-baseline gap-2">
-                <b className="font-display text-[11px] leading-[14px] font-semibold tracking-[-0.005em] text-text-secondary">
-                  Tu nota
-                </b>
-                <time className="text-[11px] leading-[14px] text-text-tertiary">
-                  Guardada el {shortDate(userMovie.note_before_at)}
-                </time>
+            {/* .pair: sólo posiciona; .half: agrega el padding-left que deja
+                lugar al nodo, exactamente como en tanda-01-v2.html */}
+            <div className="relative">
+              <div className="relative pl-6">
+                <span className="absolute top-1 left-0 h-3 w-3 rounded-full border-[1.5px] border-border bg-bg" />
+                <div className="mb-2 flex items-baseline gap-2">
+                  <b className="font-display text-[11px] leading-[14px] font-semibold tracking-[-0.005em] text-text-secondary">
+                    Tu nota
+                  </b>
+                  <time className="text-[11px] leading-[14px] text-text-tertiary">
+                    Guardada el {shortDate(userMovie.note_before_at)}
+                  </time>
+                </div>
+                <p className="type-body-md text-[#DCE0E5]">{userMovie.note_before}</p>
               </div>
-              <p className="type-body-md text-[#DCE0E5]">{userMovie.note_before}</p>
             </div>
           </div>
         )}
@@ -168,7 +172,7 @@ export default function MovieDetailPage() {
         </p>
 
         {threads.length === 0 ? (
-          <div className="mx-4 mt-3 rounded-lg border border-border-subtle bg-surface-low px-4 py-6 text-center">
+          <div className="mx-4 mt-3 rounded-lg border border-dashed border-border px-5 py-6">
             <p className="type-body-sm text-text-secondary">
               Nadie habló de esta película todavía en los foros que seguís.
             </p>
@@ -184,13 +188,14 @@ export default function MovieDetailPage() {
                 {thread.forums?.name}
               </div>
               <div className="type-display-xs leading-5">{thread.title}</div>
-              <div className="mt-2 flex gap-4 text-[11.5px] leading-4 text-text-tertiary">
-                <span>{thread.reply_count} {thread.reply_count === 1 ? 'respuesta' : 'respuestas'}</span>
-                {thread.reply_count > 0 ? (
-                  <span className="font-medium text-accent-text">{thread.reply_count} nuevas</span>
-                ) : (
-                  <span>{relativeTime(thread.created_at)}</span>
-                )}
+              {/* Deuda: sin un tracker de "última visita" en el schema no
+                  podemos distinguir respuestas nuevas de viejas, así que
+                  por ahora se muestra sólo el total. El mockup
+                  (tanda-01-v2.html, .tcfoot .nu) separa "N respuestas" de
+                  "N nuevas" en acento — reintroducir esa segunda pieza
+                  cuando exista el tracker. */}
+              <div className="mt-2 text-[11.5px] leading-4 text-text-tertiary">
+                {thread.reply_count} {thread.reply_count === 1 ? 'respuesta' : 'respuestas'}
               </div>
             </div>
           ))
@@ -214,9 +219,13 @@ export default function MovieDetailPage() {
 function ActionButton({ active, icon, children }) {
   return (
     <div
-      className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-md border text-[13.5px] font-semibold ${
-        active ? 'border-accent-bd bg-accent-bg text-accent-text' : 'border-border text-text-primary'
-      }`}
+      className="flex h-11 flex-1 items-center justify-center gap-2 rounded-md text-[13.5px]"
+      style={{
+        fontWeight: 550,
+        border: `1px solid ${active ? 'var(--color-accent-bd)' : 'var(--color-border)'}`,
+        background: active ? 'var(--color-accent-bg)' : 'transparent',
+        color: active ? 'var(--color-accent-text)' : 'var(--color-text-primary)',
+      }}
     >
       <svg
         viewBox="0 0 24 24"
