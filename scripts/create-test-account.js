@@ -7,10 +7,12 @@ import { createClient } from '@supabase/supabase-js'
 
 process.loadEnvFile()
 
-const { VITE_SUPABASE_URL, SUPABASE_SECRET_KEY, TMDB_READ_TOKEN } = process.env
+const { VITE_SUPABASE_URL, SUPABASE_SECRET_KEY, TMDB_READ_TOKEN, TEST_ACCOUNT_PASSWORD } = process.env
 
-if (!VITE_SUPABASE_URL || !SUPABASE_SECRET_KEY || !TMDB_READ_TOKEN) {
-  console.error('Faltan variables en .env (VITE_SUPABASE_URL, SUPABASE_SECRET_KEY, TMDB_READ_TOKEN)')
+if (!VITE_SUPABASE_URL || !SUPABASE_SECRET_KEY || !TMDB_READ_TOKEN || !TEST_ACCOUNT_PASSWORD) {
+  console.error(
+    'Faltan variables en .env (VITE_SUPABASE_URL, SUPABASE_SECRET_KEY, TMDB_READ_TOKEN, TEST_ACCOUNT_PASSWORD)',
+  )
   process.exit(1)
 }
 
@@ -19,7 +21,7 @@ const supabase = createClient(VITE_SUPABASE_URL, SUPABASE_SECRET_KEY, {
 })
 
 const EMAIL = 'santiago@cine-app.test'
-const PASSWORD = 'cine-app-2026'
+const PASSWORD = TEST_ACCOUNT_PASSWORD
 const USERNAME = 'santiago'
 
 const FORUM_SLUGS = ['cine-de-autor', 'drama', 'terror']
