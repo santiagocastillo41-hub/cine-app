@@ -131,12 +131,19 @@ export default function MovieDetailPage() {
           </div>
         </div>
 
-        {/* Estado, reflejado no funcional */}
+        {/* "En mi lista" sigue reflejando el estado sin ser funcional.
+            "Ya la vi" navega a la pantalla de marcar como vista sólo si
+            todavía no lo está — reabrir ese flujo para una película ya
+            vista es otra pantalla (editar la nota posterior), no ésta. */}
         <div className="flex gap-2 px-4 pt-4">
           <ActionButton active={userMovie?.status === 'saved'} icon="bookmark">
             En mi lista
           </ActionButton>
-          <ActionButton active={userMovie?.status === 'watched'} icon="check">
+          <ActionButton
+            active={userMovie?.status === 'watched'}
+            icon="check"
+            onClick={userMovie?.status === 'saved' ? () => navigate(`/pelicula/${movieId}/vista`) : undefined}
+          >
             Ya la vi
           </ActionButton>
         </div>
@@ -220,9 +227,12 @@ export default function MovieDetailPage() {
   )
 }
 
-function ActionButton({ active, icon, children }) {
+function ActionButton({ active, icon, onClick, children }) {
+  const Tag = onClick ? 'button' : 'div'
   return (
-    <div
+    <Tag
+      type={onClick ? 'button' : undefined}
+      onClick={onClick}
       className="flex h-11 flex-1 items-center justify-center gap-2 rounded-md text-[13.5px]"
       style={{
         fontWeight: 550,
@@ -247,6 +257,6 @@ function ActionButton({ active, icon, children }) {
         )}
       </svg>
       {children}
-    </div>
+    </Tag>
   )
 }

@@ -4,6 +4,7 @@ import AppLayout from './components/AppLayout'
 import LoginPage from './pages/LoginPage'
 import WatchlistPage from './pages/WatchlistPage'
 import MovieDetailPage from './pages/MovieDetailPage'
+import MarkWatchedPage from './pages/MarkWatchedPage'
 import ThreadPage from './pages/ThreadPage'
 import PlaceholderPage from './pages/PlaceholderPage'
 
@@ -35,6 +36,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <MovieDetailPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/pelicula/:id/vista"
+            element={
+              <RequireAuth>
+                <MarkWatchedPage />
               </RequireAuth>
             }
           />
